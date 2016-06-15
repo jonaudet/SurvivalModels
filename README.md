@@ -37,5 +37,5 @@ In all cases the $\beta * Predictors$ assumes a matrix of predictors.
 1.  survival_gamma_2group_cens.stan:
     * Assume that the hazard function is the gamma distribution. The shape and scale of the gamma
     are modeled directly on the constrained (> 0) linear scale. The scale is inverted
-    as Stan uses inverse-scale parameterization. The censored observations are modeled as 
-  exponentiated as Stan expects it to be larger than 0.
+    as Stan uses inverse-scale parameterization. The censored observations are modeled as
+	missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution.
