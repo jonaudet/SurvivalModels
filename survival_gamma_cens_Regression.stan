@@ -37,8 +37,8 @@ model{
   vector[N_obs] inv_scale;
   vector[N_cens] inv_scale_cens;
 
-  shapes ~ gamma(4, 1.0/ 4);
-  scales ~ gamma(2, 1);
+  Intercepts ~ normal(4, 2);
+  to_vector(betas) ~ normal(0, 1);
   d_cens ~ normal(500, 150);
 
 
