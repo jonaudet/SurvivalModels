@@ -62,12 +62,12 @@ img {
 
 
 <div id="survivalmodels" class="section level1">
-<h1>SurvivalModels</h1>
+<h1><span class="header-section-number">1</span> SurvivalModels</h1>
 <p>Various survival models coded in Stan</p>
-<p>All models account for censoring. The exponential, lognormal, weibull, and logistic use the ccdf to do so. For the gamma, the gamma_ccdf function had trouble converging (asking for very large <code>max_treedepth</code>) so the censored data is taken into account by considering it as missing data (based on a suggestion by Richard McElreath on the Stan users mailing list, here: <a href="https://groups.google.com/d/msg/stan-users/65nVen9sIsM/o6PP0MiQM9cJ" class="uri">https://groups.google.com/d/msg/stan-users/65nVen9sIsM/o6PP0MiQM9cJ</a> ).</p>
+<p>All models account for right censoring. The exponential, lognormal, weibull, and logistic use the ccdf to do so. For the gamma, the gamma_ccdf function had trouble converging (asking for very large <code>max_treedepth</code>) so the censored data is taken into account by considering it as missing data (based on a suggestion by Richard McElreath on the Stan users mailing list, here: <a href="https://groups.google.com/d/msg/stan-users/65nVen9sIsM/o6PP0MiQM9cJ" class="uri">https://groups.google.com/d/msg/stan-users/65nVen9sIsM/o6PP0MiQM9cJ</a> ).</p>
 <div id="models" class="section level2">
-<h2>Models</h2>
-<p>In all cases the <span class="math inline">\(\beta * Predictors\)</span> assumes a matrix of predictors.</p>
+<h2><span class="header-section-number">1.1</span> Models</h2>
+<p>In all cases the <span class="math inline">\(\beta * Predictors\)</span> assumes a N x P matrix of predictors.</p>
 <ol style="list-style-type: decimal">
 <li>survival_exponential_cens_Regression.stan:
 <ul>
@@ -79,7 +79,7 @@ img {
 </ul></li>
 <li>survival_weibull_cens_Regression.stan:
 <ul>
-<li>Assume that the hazard function is the weibull distribution. The scale of the weibull is modeled as: <span class="math inline">\(log(\alpha) = \alpha + \beta * Predictors\)</span>. The shape of the logweibull is modeled as: <span class="math inline">\(log(\sigma) = \alpha + \beta * Predictors\)</span>. Both parameters are exponentiated before the sampling function.</li>
+<li>Assume that the hazard function is the weibull distribution. The scale of the weibull is modeled as: <span class="math inline">\(log(\alpha) = \alpha + \beta * Predictors\)</span>. The shape of the weibull is modeled as: <span class="math inline">\(log(\sigma) = \alpha + \beta * Predictors\)</span>. Both parameters are exponentiated before the sampling function.</li>
 </ul></li>
 <li>survival_logistic_cens_Regression.stan:
 <ul>
@@ -87,7 +87,11 @@ img {
 </ul></li>
 <li>survival_gamma_2group_cens.stan:
 <ul>
-<li>Assume that the hazard function is the gamma distribution. The shape and scale of the gamma are modeled directly on the constrained (&gt; 0) linear scale. The scale is inverted as Stan uses inverse-scale parameterization. The censored observations are modeled as exponentiated as Stan expects it to be larger than 0.</li>
+<li>Assume that the hazard function is the gamma distribution. The shape and scale of the gamma are modeled directly on the constrained (&gt; 0) linear scale. The scale is inverted as Stan uses inverse-scale parameterization. The censored observations are modeled as missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution. The model was designed for mice, so the prior on the missing data assumes survival of 500 units (days for me) with SD 150.</li>
+</ul></li>
+<li>survival_gamma_cens_Regression.stan:
+<ul>
+<li>Assume that the hazard function is the gamma distribution. The scale of the gamma is modeled as: <span class="math inline">\(log(scale) = \alpha + \beta * Predictors\)</span>. The scale is inverted as Stan uses inverse-scale parameterization. The shape of the gamma is modeled as: <span class="math inline">\(log(shape) = \alpha + \beta * Predictors\)</span>. Both parameters are exponentiated before the sampling function. The scale is inverted as Stan uses inverse-scale parameterization. The censored observations are modeled as missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution. The model was designed for mice, so the prior on the missing data assumes survival of 500 units (days for me) with SD 150.</li>
 </ul></li>
 </ol>
 </div>

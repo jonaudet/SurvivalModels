@@ -1,7 +1,12 @@
+---
+output: 
+  html_document: 
+    number_sections: yes
+---
 # SurvivalModels
 Various survival models coded in Stan
 
-All models account for censoring. The exponential, lognormal, weibull, and logistic
+All models account for right censoring. The exponential, lognormal, weibull, and logistic
 use the ccdf to do so. For the gamma, the gamma_ccdf function had trouble converging
 (asking for very large `max_treedepth`) so the censored data is taken into account
 by considering it as missing data (based on a suggestion by Richard McElreath on 
@@ -9,7 +14,7 @@ the Stan users mailing list, here: https://groups.google.com/d/msg/stan-users/65
 
 ## Models
 
-In all cases the $\beta * Predictors$ assumes a matrix of predictors. 
+In all cases the $\beta * Predictors$ assumes a N x P matrix of predictors. 
 
 1.  survival_exponential_cens_Regression.stan:
     * Assume that the hazard function is exponential. The rate of the exponential is
@@ -24,7 +29,7 @@ In all cases the $\beta * Predictors$ assumes a matrix of predictors.
   
 1.  survival_weibull_cens_Regression.stan:
     * Assume that the hazard function is the weibull distribution. The scale of the weibull is
-  modeled as: $log(\alpha) = \alpha + \beta * Predictors$. The shape of the logweibull is
+  modeled as: $log(\alpha) = \alpha + \beta * Predictors$. The shape of the weibull is
   modeled as: $log(\sigma) = \alpha + \beta * Predictors$. Both parameters are exponentiated
   before the sampling function.
   
@@ -38,4 +43,15 @@ In all cases the $\beta * Predictors$ assumes a matrix of predictors.
     * Assume that the hazard function is the gamma distribution. The shape and scale of the gamma
     are modeled directly on the constrained (> 0) linear scale. The scale is inverted
     as Stan uses inverse-scale parameterization. The censored observations are modeled as
-	missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution.
+	missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution. The model
+was designed for mice, so the prior on the missing data assumes survival of 500 units (days for me) with SD 150.
+
+1.  survival_gamma_cens_Regression.stan:
+    * Assume that the hazard function is the gamma distribution. The scale of the gamma is
+  modeled as: $log(scale) = \alpha + \beta * Predictors$. The scale is inverted
+    as Stan uses inverse-scale parameterization. The shape of the gamma is
+  modeled as: $log(shape) = \alpha + \beta * Predictors$. Both parameters are exponentiated
+  before the sampling function. The scale is inverted
+    as Stan uses inverse-scale parameterization. The censored observations are modeled as
+	missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution. The model
+was designed for mice, so the prior on the missing data assumes survival of 500 units (days for me) with SD 150.
