@@ -40,3 +40,10 @@ In all cases the $\beta * Predictors$ assumes a N x P matrix of predictors.
     as Stan uses inverse-scale parameterization. The censored observations are modeled as
 	missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution. The model
 was designed for mice, so the prior on the missing data assumes survival of 500 units (days for me) with SD 150.
+
+1.  survival_gamma_cens_Regression.stan:
+    * Assume that the hazard function is the gamma distribution. The shape and scale of the gamma
+    are modeled directly on the constrained (> 0) linear scale. The scale is inverted
+    as Stan uses inverse-scale parameterization. The censored observations are modeled as
+	missing data with a lower bound at the censoring threshold and unknown (modeled) additional contribution. The model
+was designed for mice, so the prior on the missing data assumes survival of 500 units (days for me) with SD 150.
