@@ -9,7 +9,7 @@ the Stan users mailing list, here: https://groups.google.com/d/msg/stan-users/65
 
 ## Models
 
-In all cases the $\beta * Predictors$ assumes a matrix of predictors. 
+In all cases the $\beta * Predictors$ assumes a N x P matrix of predictors. 
 
 1.  survival_exponential_cens_Regression.stan:
     * Assume that the hazard function is exponential. The rate of the exponential is
