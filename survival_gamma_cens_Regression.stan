@@ -37,10 +37,10 @@ model{
   vector[N_obs] inv_scale;
   vector[N_cens] inv_scale_cens;
 
-  Intercepts[1] ~ normal(log(9.5), 1);
-  Intercepts[2] ~ normal(log(50), 1);
+  Intercepts[1] ~ normal(2, 1);
+  Intercepts[2] ~ normal(4, 2);
   to_vector(betas) ~ normal(0, 10);
-  d_cens ~ normal(500, 150);
+  d_cens ~ normal(0, 400);
 
 
   for(i in 1:N_obs)
